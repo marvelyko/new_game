@@ -20,5 +20,16 @@ module.exports = {
   watcher: {
     ...defaultConfig.watcher,
     unstable_lazySha1: true, // Enable lazy SHA1 computation for better performance
-  }
+  },
+  resolver: {
+    ...defaultConfig.resolver,
+    assetExts: [
+      ...defaultConfig.resolver.assetExts,
+      'ico', // Add ico extension for favicon files
+    ],
+  },
+  transformer: {
+    ...defaultConfig.transformer,
+    assetPlugins: ['expo-asset/tools/hashAssetFiles'],
+  },
 };

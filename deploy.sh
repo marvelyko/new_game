@@ -40,13 +40,27 @@ echo -e "${YELLOW}Installing application dependencies...${NC}"
 cd /var/www/expo-app
 npm install
 
+# Fix favicon MIME type issue
+echo -e "${YELLOW}Fixing favicon MIME type issue...${NC}"
+if [ -f "assets/images/icon.png" ]; then
+    cp assets/images/icon.png assets/images/favicon.ico
+    echo "Favicon created from icon.png"
+else
+    echo "Creating simple favicon..."
+    # Create a minimal favicon.ico file
+    printf '\x00\x00\x01\x00\x01\x00\x10\x10\x00\x00\x01\x00\x20\x00\x68\x04\x00\x00\x16\x00\x00\x00' > assets/images/favicon.ico
+fi
+
 # Install Expo CLI globally
 echo -e "${YELLOW}Installing Expo CLI...${NC}"
 sudo npm install -g @expo/cli
 
 # Build the application for production
 echo -e "${YELLOW}Building application for production...${NC}"
-npx expo export --platform web
+# Set environment variables for production build
+export NODE_ENV=production
+export EXPO_PUBLIC_CONVEX_URL=$CONVEX_URL
+npx expo export --platform web --clear
 
 # Set up PM2
 echo -e "${YELLOW}Configuring PM2...${NC}"
