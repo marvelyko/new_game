@@ -39,3 +39,4 @@ yarn-error.*
 *.lockb
 *.lock
 package-lock.json
+.env.local
